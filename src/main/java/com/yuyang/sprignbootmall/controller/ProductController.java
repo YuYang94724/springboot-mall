@@ -1,6 +1,7 @@
 package com.yuyang.sprignbootmall.controller;
 
 
+import com.yuyang.sprignbootmall.constant.ProductCategory;
 import com.yuyang.sprignbootmall.dto.ProductRequest;
 import com.yuyang.sprignbootmall.model.Product;
 import com.yuyang.sprignbootmall.service.ProductService;
@@ -20,8 +21,12 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory productCategory,
+            @RequestParam(required = false) String search
+            ){
+        System.out.println(productCategory);
+        List<Product> productList = productService.getProducts(productCategory, search);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
