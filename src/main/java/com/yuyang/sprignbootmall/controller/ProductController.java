@@ -25,7 +25,7 @@ public class ProductController {
             @RequestParam(required = false) ProductCategory productCategory,
             @RequestParam(required = false) String search
             ){
-        System.out.println(productCategory);
+
         List<Product> productList = productService.getProducts(productCategory, search);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
