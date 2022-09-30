@@ -1,0 +1,11 @@
+server:
+    port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mall?serverTimezone=Asia/Taipei&characterEncoding=utf-8
+    username: root
+    password: 1234
+  jackson:
+    date-format: yyyy-mm-dd hh:mm:ss
+    time-zone: GMT+8
