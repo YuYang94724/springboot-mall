@@ -1,7 +1,7 @@
 package com.yuyang.sprignbootmall.service.impl;
 
-import com.yuyang.sprignbootmall.constant.ProductCategory;
 import com.yuyang.sprignbootmall.dao.ProductDao;
+import com.yuyang.sprignbootmall.dto.ProductQueryParams;
 import com.yuyang.sprignbootmall.dto.ProductRequest;
 import com.yuyang.sprignbootmall.model.Product;
 import com.yuyang.sprignbootmall.service.ProductService;
@@ -18,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory productCategory, String search) {
-        return productDao.getProducts(productCategory, search);
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
     }
 
     @Override

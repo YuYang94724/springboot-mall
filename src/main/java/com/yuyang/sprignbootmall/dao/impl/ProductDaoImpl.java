@@ -1,7 +1,7 @@
 package com.yuyang.sprignbootmall.dao.impl;
 
-import com.yuyang.sprignbootmall.constant.ProductCategory;
 import com.yuyang.sprignbootmall.dao.ProductDao;
+import com.yuyang.sprignbootmall.dto.ProductQueryParams;
 import com.yuyang.sprignbootmall.dto.ProductRequest;
 import com.yuyang.sprignbootmall.model.Product;
 import com.yuyang.sprignbootmall.rowmapper.ProductRowMapper;
@@ -24,19 +24,19 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts(ProductCategory productCategory, String search) {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql = "SELECT product_id, product_name, category, " +
                 "image_url, price, stock, description, " +
                 "created_date, last_modified_date " +
                 "FROM product where 1=1 ";
         Map<String, Object> map = new HashMap<>();
-        if (productCategory != null){
+        if (productQueryParams.getProductCategory() != null){
             sql = sql + " and category = :category";
-            map.put("category", productCategory.name());
+            map.put("category", productQueryParams.getProductCategory().name());
         }
-        if (search != null){
+        if (productQueryParams.getSearch() != null){
             sql = sql + " and product_name like :search";
-            map.put("search", "%" + search + "%");
+            map.put("search", "%" + productQueryParams.getSearch() + "%");
         }
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
