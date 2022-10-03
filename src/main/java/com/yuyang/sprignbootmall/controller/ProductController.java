@@ -6,6 +6,7 @@ import com.yuyang.sprignbootmall.dto.ProductQueryParams;
 import com.yuyang.sprignbootmall.dto.ProductRequest;
 import com.yuyang.sprignbootmall.model.Product;
 import com.yuyang.sprignbootmall.service.ProductService;
+import com.yuyang.sprignbootmall.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             //查詢條件 Filtering
             @RequestParam(required = false) ProductCategory productCategory,
             @RequestParam(required = false) String search,
@@ -43,10 +44,17 @@ public class ProductController {
         productQueryParams.setSort(sort);
         productQueryParams.setLimit(limit);
         productQueryParams.setOffset(offset);
-
+        //取得 product list
         List<Product> productList = productService.getProducts(productQueryParams);
+        //取得 product total
+        Integer total = productService.countProduct(productQueryParams);
 
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResult(productList);
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @GetMapping("/products/{productId}")
