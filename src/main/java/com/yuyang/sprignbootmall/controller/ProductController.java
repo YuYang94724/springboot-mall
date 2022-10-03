@@ -6,7 +6,7 @@ import com.yuyang.sprignbootmall.dto.ProductQueryParams;
 import com.yuyang.sprignbootmall.dto.ProductRequest;
 import com.yuyang.sprignbootmall.model.Product;
 import com.yuyang.sprignbootmall.service.ProductService;
-import com.yuyang.sprignbootmall.utils.Page;
+import com.yuyang.sprignbootmall.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +53,7 @@ public class ProductController {
         page.setLimit(limit);
         page.setOffset(offset);
         page.setTotal(total);
-        page.setResult(productList);
+        page.setResults(productList);
         return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 

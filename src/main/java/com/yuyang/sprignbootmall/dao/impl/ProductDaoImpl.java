@@ -140,7 +140,6 @@ public class ProductDaoImpl implements ProductDao {
             sql = sql + " and product_name like :search";
             map.put("search", "%" + productQueryParams.getSearch() + "%");
         }
-
         return  sql;
     }
 }

@@ -1,4 +1,4 @@
-package com.yuyang.sprignbootmall.utils;
+package com.yuyang.sprignbootmall.util;
 
 import lombok.Data;
 
@@ -8,5 +8,5 @@ public class Page<T> {
     private Integer limit;
     private Integer offset;
     private Integer total;
-    private List<T> result;
+    private List<T> results;
 }
