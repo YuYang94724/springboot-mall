@@ -4,6 +4,8 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb
+#    USER是保留關鍵字，用NON_KEYWORDS= 排除 不然會報錯
+#    url: jdbc:h2:mem:testdb;NON_KEYWORDS=USER
     username: sa
     password: sa
   jackson:
