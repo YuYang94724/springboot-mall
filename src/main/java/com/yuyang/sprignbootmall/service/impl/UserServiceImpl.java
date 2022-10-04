@@ -1,6 +1,7 @@
 package com.yuyang.sprignbootmall.service.impl;
 
 import com.yuyang.sprignbootmall.dao.UserDao;
+import com.yuyang.sprignbootmall.dto.UserLoginRequest;
 import com.yuyang.sprignbootmall.dto.UserRegisterRequest;
 import com.yuyang.sprignbootmall.model.User;
 import com.yuyang.sprignbootmall.service.UserService;
@@ -23,9 +24,9 @@ public class UserServiceImpl implements UserService {
     public Integer register(UserRegisterRequest userRegisterRequest) {
         //檢查email是否已註冊過
         User user = userDao.getUserByEmail(userRegisterRequest.getEmail());
-        log.warn("該 email {} 已經被註冊", userRegisterRequest.getEmail());
 
         if( user != null){
+        log.warn("該 email {} 已經被註冊", userRegisterRequest.getEmail());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         //註冊新email
@@ -35,5 +36,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Integer userId) {
         return userDao.getUserById(userId);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+        if (user == null){
+            log.warn("該Email {} 尚未註冊", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        if(userLoginRequest.getPassword().equals(user.getPassword())){
+            return user;
+        }else {
+            log.warn("email {} 的密碼不正確", userLoginRequest.getEmail());
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }
