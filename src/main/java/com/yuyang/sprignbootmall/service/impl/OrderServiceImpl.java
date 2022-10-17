@@ -5,6 +5,7 @@ import com.yuyang.sprignbootmall.dao.ProductDao;
 import com.yuyang.sprignbootmall.dao.UserDao;
 import com.yuyang.sprignbootmall.dto.BuyItem;
 import com.yuyang.sprignbootmall.dto.CreateOrderRequest;
+import com.yuyang.sprignbootmall.dto.OrderQueryParam;
 import com.yuyang.sprignbootmall.model.Order;
 import com.yuyang.sprignbootmall.model.OrderItem;
 import com.yuyang.sprignbootmall.model.Product;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -91,4 +93,21 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderItemList(orderItemList);
         return order;
     }
+
+    @Override
+    public Integer countOrder(OrderQueryParam orderQueryParam) {
+        return orderDao.countOrder(orderQueryParam);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParam orderQueryParam) {
+       List<Order> orderList = orderDao.getOrders(orderQueryParam);
+        orderList.stream().forEach(order -> {
+            List<OrderItem> orderItemList =  orderDao.getOrderItemsById(order.getOrderId());
+            order.setOrderItemList(orderItemList);
+        });
+        return  orderList;
+    }
+
+
 }

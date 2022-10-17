@@ -1,5 +1,6 @@
 package com.yuyang.sprignbootmall.dao;
 
+import com.yuyang.sprignbootmall.dto.OrderQueryParam;
 import com.yuyang.sprignbootmall.model.Order;
 import com.yuyang.sprignbootmall.model.OrderItem;
 
@@ -14,4 +15,8 @@ public interface OrderDao {
     Order getOrderById(Integer orderId);
 
     List<OrderItem> getOrderItemsById(Integer orderId);
+
+    List<Order> getOrders(OrderQueryParam orderQueryParam);
+
+    Integer countOrder(OrderQueryParam orderQueryParam);
 }

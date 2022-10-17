@@ -1,6 +1,7 @@
 package com.yuyang.sprignbootmall.dao.impl;
 
 import com.yuyang.sprignbootmall.dao.OrderDao;
+import com.yuyang.sprignbootmall.dto.OrderQueryParam;
 import com.yuyang.sprignbootmall.model.Order;
 import com.yuyang.sprignbootmall.model.OrderItem;
 import com.yuyang.sprignbootmall.rowmapper.OrderItemRowMapper;
@@ -106,5 +107,46 @@ public class OrderDaoImpl implements OrderDao {
 
 
         return orderItemList;
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParam orderQueryParam) {
+        String sql = "SELECT order_id, user_id, total_amount, created_date, " +
+                " last_modified_date FROM `order` WHERE 1=1 ";
+
+        Map<String, Object> map = new HashMap<>();
+        sql = addFliterSql(sql, map, orderQueryParam);
+
+        //排序
+        sql += " ORDER BY created_date DESC ";
+        //分頁
+        sql += " LIMIT :limit OFFSET :offset ";
+        map.put("limit", orderQueryParam.getLimit());
+        map.put("offset", orderQueryParam.getOffset());
+
+        List<Order> orderList = namedParameterJdbcTemplate.query(sql, map, new OrderRowMapper());
+
+        return orderList;
+    }
+
+    @Override
+    public Integer countOrder(OrderQueryParam orderQueryParam) {
+        String sql = "SELECT COUNT(*) FROM `order` WHERE 1=1 ";
+
+        Map<String, Object> map =new HashMap<>();
+        sql = addFliterSql(sql, map, orderQueryParam);
+
+        Integer count = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
+
+        return count;
+    }
+
+    public String addFliterSql(String sql, Map<String, Object> map, OrderQueryParam orderQueryParam){
+
+        if (orderQueryParam.getUserId() != null){
+            sql += " AND  user_id = :userId ";
+            map.put("userId", orderQueryParam.getUserId());
+        }
+        return sql;
     }
 }
